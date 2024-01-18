@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles.css">
+    <title>OperatorAI Dashboard</title>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="past-calls">
+            <h2>Past Call Details</h2>
+            <div id="past-call-cards">
+                <!-- Past call data will be inserted here as cards -->
+            </div>
+        </div>
+    </div>
+    <script>
+        // JavaScript code for fetching and displaying past call data as cards
+        fetch(window.location.href + '/getinfo') // Replace with your API endpoint URL
+            .then(response => response.json())
+            .then(data => {
+                const pastCallCards = document.getElementById('past-call-cards');
+
+                data.reverse(); // Reverse the order to display the newest entry first
+
+                data.forEach(call => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    // Create boxes for each column (Emergency, Location, Priority, Translation)
+                    const boxEmergency = document.createElement('div');
+                    boxEmergency.classList.add('box');
+                    boxEmergency.innerHTML = `<h3>Emergency</h3><p>${call.Emergency}</p>`;
+
+                    const boxLocation = document.createElement('div');
+                    boxLocation.classList.add('box');
+                    boxLocation.innerHTML = `<h3>Location</h3><p>${call.Location}</p>`;
+
+                    const boxPriority = document.createElement('div');
+                    boxPriority.classList.add('box');
+                    boxPriority.innerHTML = `<h3>Priority</h3><p>${call.Priority}</p>`;
+
+                    const boxTranslation = document.createElement('div');
+                    boxTranslation.classList.add('box');
+                    boxTranslation.innerHTML = `<h3>Translation</h3><p>${call.Translation}</p>`;
+
+                    card.appendChild(boxEmergency);
+                    card.appendChild(boxLocation);
+                    card.appendChild(boxPriority);
+                    card.appendChild(boxTranslation);
+
+                    pastCallCards.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
